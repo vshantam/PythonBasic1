@@ -1,2 +1,2 @@
 # coding: utf8
-print "Hello"
+print "He"
