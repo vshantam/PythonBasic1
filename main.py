@@ -1,1 +1,2 @@
-print "Hello"
+# coding: utf8
+print "Привет"
