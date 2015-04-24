@@ -1,3 +1,10 @@
 # coding: utf8
 print "Привет"
-print "Welcome to game Monopoly!" #Welcome message
+
+from random import randint
+print randint(1,6)
+
+a = raw_input('Player name: ')
+def name(a):
+   return a
+print a
