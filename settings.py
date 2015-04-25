@@ -15,7 +15,7 @@ welcome_greeting = 'Hello! Welcome to Monopoly!'
 # initial cell number
 """
  Initial cell of the first circle is also a final cell of the next circles, thus it also should be valued at
- Although it seems to be a temporary solution, ...
+ Although it seems to be like a temporary solution, ...
  for now there couldn`t be any O cell or Denis`s get_new_player_position function won`t work"
 """
 initial_cell = 44
