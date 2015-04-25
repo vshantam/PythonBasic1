@@ -33,7 +33,7 @@ print_greeting()
 
 
 
-from literals import cells_number
+from settings import cells_number
 const = cells_number()
 def numb_of_players():
     m = int(input('Enter the number of players: '))
