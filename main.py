@@ -32,7 +32,7 @@ def get_new_player_position(current_cell, thrown_number):
 print_greeting()
 
 
-
+#Issue #7
 from settings import cells_number
 const = cells_number()
 def numb_of_players():
