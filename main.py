@@ -3,7 +3,7 @@ import settings
 from random import randint
 
 
-def print_greeting():
+hdef print_greeting():
     print settings.welcome_greeting
 
 
@@ -22,12 +22,13 @@ def get_new_player_position(current_cell, thrown_number):
     >>> get_new_player_position(0, 2)
     2
     This test estimates the position after crossing the start field.
-    >>> get_new_player_position(43, 4)
-    2
+    >>> get_new_player_position(44, 1)
+    1
+
     """
     return (current_cell + thrown_number) % settings.cells_number
 
 
 print_greeting()
 
-c = get_new_player_position(0, throw_dice())
+
