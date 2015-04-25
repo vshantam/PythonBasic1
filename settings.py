@@ -1,8 +1,8 @@
 # coding: utf8
 """
-This module include all literals for
+This module include all settings for
 Monopoly project.
-Each literal (variable) should be followed
+Each setting (variable) should be followed
 with short and proper commentary
 """
 
