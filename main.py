@@ -7,10 +7,6 @@ def print_greeting():  # fixed the function
     print settings.welcome_greeting
 
 
-def input_player_name():
-    return raw_input('Player name: ')
-
-
 def throw_dice():
     return randint(1, 6)
 
@@ -41,12 +37,12 @@ print_greeting()
 
 # Issue #7
 # fixed the identifier instead of function/ fixed the import
-const = settings.cells_number
-
+# deleted the additional constant "constant"
 
 def numb_of_players():
-    m = int(input('Enter the number of players: '))
-    if m <= const:
+    m = input("Enter the number of players: ")
+
+    if m <= settings.max_players_number:  # changed the max number of players instead of cells number
         print('Ok!')
     else:
         print('Maximum number of players - 44, enter the correct number!')

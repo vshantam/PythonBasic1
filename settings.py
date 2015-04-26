@@ -19,3 +19,8 @@ welcome_greeting = 'Hello! Welcome to Monopoly!'
  for now there couldn`t be any O cell or Denis`s get_new_player_position function won`t work"
 """
 initial_cell = 44
+
+# initial amount of money
+initial_funds = 200000
+
+max_players_number = 4
