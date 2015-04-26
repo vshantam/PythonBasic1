@@ -13,8 +13,11 @@ def throw_dice():
 
 def get_new_player_position(current_cell, thrown_number):
     """
-    I think we should start counting the cell with 1 rather than with 0,
-    or change the max number of cells to 43.
+    Initial cell of the first circle is also a final cell of the next circles,
+    thus it also should be valued at 44.
+    Although it seems to be like a temporary solution,
+    for now there could not be any O cell or get_new_player_position function won`t work.
+
     This test brings the position after the initial throw.
     >>> get_new_player_position(settings.initial_cell, 2)
     2
@@ -40,10 +43,17 @@ print_greeting()
 # deleted the additional constant "constant"
 
 def numb_of_players():
-    m = input("Enter the number of players: ")
-
-    if m <= settings.max_players_number:  # changed the max number of players instead of cells number
-        print('Ok!')
-    else:
-        print('Maximum number of players - 44, enter the correct number!')
-    return m
+    while True:
+        m = raw_input("Enter the number of players: ")
+        try:
+            m = int(m)
+        except ValueError:
+            print "Value should be the number!"
+            continue
+        if m <= 1:
+            print "Min number of players is 2"
+        elif m <= settings.max_players_number:
+            print('Ok!')
+            return m
+        else:
+            print('Max number of players - 4, enter the correct number!')

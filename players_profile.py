@@ -15,9 +15,10 @@ def player_profile():  # builds the list of players
 # builds the list of profiles of all players
 def all_players_profile():
     l = []
-    n = 0
     x = main.numb_of_players()
+    n = 0
     while n < x:
         n += 1
         l.append(player_profile())
     return l
+
