@@ -1,6 +1,7 @@
 # coding: utf8
 import settings
 import main
+from random import shuffle
 
 
 def input_player_name():
@@ -22,3 +23,8 @@ def all_players_profile():
         l.append(player_profile())
     return l
 
+# builds the shuffle list of profiles of all players
+def random_players_profile():
+    l = all_players_profile()
+    shuffle(l)
+    return l
