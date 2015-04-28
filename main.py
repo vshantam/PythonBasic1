@@ -43,48 +43,56 @@ print_greeting()
 # fixed the identifier instead of function/ fixed the import
 # deleted the additional constant "constant"
 
-def numb_of_players():
-    while True:
-        m = raw_input("Enter the number of players: ")
-        try:
-            m = int(m)
-        except ValueError:
-            print "Value should be the number!"
-            continue
-        if m <= 1:
-            print "Min number of players is 2"
-        elif m <= settings.max_players_number:
-            print('Ok!')
-            return m
-        else:
-            print('Max number of players - 4, enter the correct number!')
+# def numb_of_players():
+#     while True:
+#         m = raw_input("Enter the number of players: ")
+#         try:
+#             m = int(m)
+#         except ValueError:
+#             print "Value should be the number!"
+#             continue
+#         if m <= 1:
+#             print "Min number of players is 2"
+#         elif m <= settings.max_players_number:
+#             print('Ok!')
+#             return m
+#         else:
+#             print('Max number of players - 4, enter the correct number!')
 
 
 def input_player_name():
-    return raw_input('Player name: ')
+    return raw_input('Player_' + str(player) + ' name: ')
 
 
 # builds the profile of a given player
 def player_profile():  # builds the list of players
     return [input_player_name(), settings.initial_funds, settings.initial_cell]
 
-
-def generate_profiles_list():
+def player_number():
     while True:
         try:
-            numb_of_players = int(raw_input("Enter the number of players: "))
-            profiles_list = []      #  TODO: make it dictionary not list
-            if numb_of_players <= 1:
+            number_of_players = int(raw_input("Enter the number of players: "))
+            if number_of_players <= 1:
                 print "Min number of players is 2"
-            elif numb_of_players <= settings.max_players_number:
-                for player in range(numb_of_players):
-                    profiles_list.append(player_profile())
-                return profiles_list
+            elif number_of_players <= settings.max_players_number:
+                return number_of_players
             else:
                 print('Max number of players - 4, enter the correct number!')
         except ValueError:
             print "Value should be the number!"
 
+def generate_profiles_list():
+    profiles_list = []  # TODO: make it dictionary not list
+    global player
+    for player in range(1, player_number() + 1):
+        while True:
+            current_profile = player_profile()
+            if current_profile[0] not in profiles_list:
+                profiles_list.append(current_profile[0])
+                break
+            else:
+                print "This name is already held, please try another name"
+    return profiles_list
 
 def shuffle_players_profile():
     shuffled_list = generate_profiles_list()[:]
