@@ -9,7 +9,7 @@ def print_greeting():  # fixed the function
     print settings.version
 
 
-def throw_dice():  # added the second dice
+def throw_dice():  # added one more dice
     x = randint(1, 6)
     y = randint(1, 6)
     return x + y
