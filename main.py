@@ -73,7 +73,7 @@ def generate_profiles_list():
     while True:
         try:
             numb_of_players = int(raw_input("Enter the number of players: "))
-            profiles_list = []  # TODO: make it dictionary not list
+            profiles_list = []         #TODO: make it dictionary not list
             if numb_of_players <= 1:
                 print "Min number of players is 2"
             elif numb_of_players <= settings.max_players_number:
@@ -90,4 +90,3 @@ def shuffle_players_profile():
     shuffled_list = generate_profiles_list()[:]
     shuffle(shuffled_list)
     return shuffled_list
-
