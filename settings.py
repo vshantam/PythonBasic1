@@ -12,6 +12,8 @@ cells_number = 44
 # welcome greeting, shown at the start of game
 welcome_greeting = 'Hello! Welcome to Monopoly!'
 
+version = 'v. 1.1'
+
 # initial cell number
 """
  Initial cell of the first circle is also a final cell of the next circles,

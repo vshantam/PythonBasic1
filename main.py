@@ -6,6 +6,7 @@ from random import shuffle
 
 def print_greeting():  # fixed the function
     print settings.welcome_greeting
+    print settings.version
 
 
 def throw_dice():  # added the second dice
@@ -38,9 +39,6 @@ def get_new_player_position(current_cell, thrown_number):
     return (current_cell + thrown_number) % settings.cells_number
 
 
-print_greeting()
-
-
 # Issue #7
 # fixed the identifier instead of function/ fixed the import
 # deleted the additional constant "constant"
@@ -61,9 +59,9 @@ def numb_of_players():
         else:
             print('Max number of players - 4, enter the correct number!')
 
-
+#Modified issue 9
 def input_player_name():
-    return raw_input('Player name: ')
+    return raw_input('Player_' + str(player) + ' name: ')
 
 
 # builds the profile of a given player
@@ -71,24 +69,46 @@ def player_profile():  # builds the list of players
     return [input_player_name(), settings.initial_funds, settings.initial_cell]
 
 
-def generate_profiles_list():
+def player_number():
     while True:
         try:
-            numb_of_players = int(raw_input("Enter the number of players: "))
-            profiles_list = []      #  TODO: make it dictionary not list
-            if numb_of_players <= 1:
+            number_of_players = int(raw_input("Enter the number of players: "))
+            if number_of_players <= 1:
                 print "Min number of players is 2"
-            elif numb_of_players <= settings.max_players_number:
-                for player in range(numb_of_players):
-                    profiles_list.append(player_profile())
-                return profiles_list
+            elif number_of_players <= settings.max_players_number:
+                return number_of_players
             else:
                 print('Max number of players - 4, enter the correct number!')
         except ValueError:
             print "Value should be the number!"
 
 
+def generate_profiles_list():
+    profiles_list = []  # TODO: make it dictionary not list
+    global player
+    for player in range(1, player_number() + 1):
+        while True:
+            current_profile = player_profile()
+            if current_profile not in profiles_list:
+                profiles_list.append(current_profile)
+                break
+            else:
+                print "This name is already held, please try another name"
+    return profiles_list
+
+
 def shuffle_players_profile():
     shuffled_list = generate_profiles_list()[:]
     shuffle(shuffled_list)
     return shuffled_list
+
+
+def main():
+    print_greeting()
+    shuffled_list = shuffle_players_profile()
+    while True:
+        for player in shuffled_list:
+            raw_input(player[0] + '>>>')
+
+
+main()
