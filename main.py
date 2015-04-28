@@ -43,23 +43,23 @@ print_greeting()
 # fixed the identifier instead of function/ fixed the import
 # deleted the additional constant "constant"
 
-# def numb_of_players():
-#     while True:
-#         m = raw_input("Enter the number of players: ")
-#         try:
-#             m = int(m)
-#         except ValueError:
-#             print "Value should be the number!"
-#             continue
-#         if m <= 1:
-#             print "Min number of players is 2"
-#         elif m <= settings.max_players_number:
-#             print('Ok!')
-#             return m
-#         else:
-#             print('Max number of players - 4, enter the correct number!')
+def numb_of_players():
+    while True:
+        m = raw_input("Enter the number of players: ")
+        try:
+            m = int(m)
+        except ValueError:
+            print "Value should be the number!"
+            continue
+        if m <= 1:
+            print "Min number of players is 2"
+        elif m <= settings.max_players_number:
+            print('Ok!')
+            return m
+        else:
+            print('Max number of players - 4, enter the correct number!')
 
-
+#Modified issue 9
 def input_player_name():
     return raw_input('Player_' + str(player) + ' name: ')
 
@@ -67,6 +67,7 @@ def input_player_name():
 # builds the profile of a given player
 def player_profile():  # builds the list of players
     return [input_player_name(), settings.initial_funds, settings.initial_cell]
+
 
 def player_number():
     while True:
@@ -81,20 +82,31 @@ def player_number():
         except ValueError:
             print "Value should be the number!"
 
+
 def generate_profiles_list():
     profiles_list = []  # TODO: make it dictionary not list
     global player
     for player in range(1, player_number() + 1):
         while True:
             current_profile = player_profile()
-            if current_profile[0] not in profiles_list:
-                profiles_list.append(current_profile[0])
+            if current_profile not in profiles_list:
+                profiles_list.append(current_profile)
                 break
             else:
                 print "This name is already held, please try another name"
     return profiles_list
 
+
 def shuffle_players_profile():
     shuffled_list = generate_profiles_list()[:]
     shuffle(shuffled_list)
     return shuffled_list
+
+
+def main(shuffled_list = shuffle_players_profile()):
+    while True:
+        for player in shuffled_list:
+            raw_input(player[0] + '>>>')
+
+
+main()
