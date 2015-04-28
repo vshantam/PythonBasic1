@@ -19,7 +19,7 @@ welcome_greeting = 'Hello! Welcome to Monopoly!'
  Although it seems to be like a temporary solution,
  for now there couldn`t be any O cell or get_new_player_position function won`t work.
 """
-initial_cell = 44
+initial_cell = 0
 
 # initial amount of money
 initial_funds = 200000

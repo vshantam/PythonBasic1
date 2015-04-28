@@ -1,9 +1,10 @@
 # coding: utf8
 import settings
 from random import randint
+from random import shuffle
 
 
-def print_greeting():  # fixed the function
+def print_greeting():
     print settings.welcome_greeting
 
 
@@ -57,3 +58,36 @@ def numb_of_players():
             return m
         else:
             print('Max number of players - 4, enter the correct number!')
+
+
+def input_player_name():
+    return raw_input('Player name: ')
+
+
+# builds the profile of a given player
+def player_profile():  # builds the list of players
+    return [input_player_name(), settings.initial_funds, settings.initial_cell]
+
+
+def generate_profiles_list():
+    while True:
+        try:
+            numb_of_players = int(raw_input("Enter the number of players: "))
+            profiles_list = []  # TODO: make it dictionary not list
+            if numb_of_players <= 1:
+                print "Min number of players is 2"
+            elif numb_of_players <= settings.max_players_number:
+                for player in range(numb_of_players):
+                    profiles_list.append(player_profile())
+                return profiles_list
+            else:
+                print('Max number of players - 4, enter the correct number!')
+        except ValueError:
+            print "Value should be the number!"
+
+
+def shuffle_players_profile():
+    shuffled_list = generate_profiles_list()[:]
+    shuffle(shuffled_list)
+    return shuffled_list
+
