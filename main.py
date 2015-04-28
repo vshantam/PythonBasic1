@@ -8,8 +8,10 @@ def print_greeting():  # fixed the function
     print settings.welcome_greeting
 
 
-def throw_dice():
-    return randint(1, 6)
+def throw_dice():  # added the second dice
+    x = randint(1, 6)
+    y = randint(1, 6)
+    return x + y
 
 
 def get_new_player_position(current_cell, thrown_number):
