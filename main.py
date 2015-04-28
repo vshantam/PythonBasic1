@@ -6,6 +6,7 @@ from random import shuffle
 
 def print_greeting():  # fixed the function
     print settings.welcome_greeting
+    print settings.version
 
 
 def throw_dice():
@@ -34,9 +35,6 @@ def get_new_player_position(current_cell, thrown_number):
 
     """
     return (current_cell + thrown_number) % settings.cells_number
-
-
-print_greeting()
 
 
 # Issue #7
@@ -103,7 +101,9 @@ def shuffle_players_profile():
     return shuffled_list
 
 
-def main(shuffled_list = shuffle_players_profile()):
+def main():
+    print_greeting()
+    shuffled_list = shuffle_players_profile()
     while True:
         for player in shuffled_list:
             raw_input(player[0] + '>>>')
