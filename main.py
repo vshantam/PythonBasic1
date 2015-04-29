@@ -109,6 +109,15 @@ def main():
     while True:
         for player in shuffled_list:
             raw_input(player[0] + '>>>')
+            print(player_name + " thow the dice!") # 13
+    temp_throw = throw_dice()[:]
+         print("dice 1 roll:      ")
+         print("dice 2 roll:      ")
+    if x == y:
+            player_droll = 1
+         else:
+            player_droll = 0
+         gameboard_playermove(player,x + y),0)
 
 
 main()
