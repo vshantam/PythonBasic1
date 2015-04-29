@@ -12,7 +12,7 @@ def print_greeting():  # fixed the function
 def throw_dice():  # added one more dice
     x = randint(1, 6)
     y = randint(1, 6)
-    return x + y
+    return [x, y] # returning list, because we need to check if player should do second throw.
 
 
 def get_new_player_position(current_cell, thrown_number):
