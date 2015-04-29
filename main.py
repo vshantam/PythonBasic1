@@ -44,6 +44,16 @@ def get_new_player_position(current_cell, thrown_number):
 # deleted the additional constant "constant"
 
 def numb_of_players():
+    """
+    >>>numb_of_players(float)
+    ValueError: Number must be exact integer
+    >>>numb_of_players(m>4)
+    ValueError: Max players - 4
+    >>>numb_of_players(m<2)
+    ValueError: Min players - 2
+
+
+    """
     while True:
         m = raw_input("Enter the number of players: ")
         try:
@@ -58,6 +68,7 @@ def numb_of_players():
             return m
         else:
             print('Max number of players - 4, enter the correct number!')
+
 
 #Modified issue 9
 def input_player_name():
