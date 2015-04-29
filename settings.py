@@ -10,7 +10,7 @@ with short and proper commentary
 cells_number = 44
 
 # welcome greeting, shown at the start of game
-welcome_greeting = 'Hello! Welcome to Monopoly!'
+welcome_greetings = 'Hello! Welcome to Monopoly!'
 
 version = 'v. 1.1'
 

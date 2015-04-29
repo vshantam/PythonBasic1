@@ -1,18 +1,18 @@
 # coding: utf8
 import settings
-from random import randint
-from random import shuffle
+from random import randint, shuffle
 
 
-def print_greeting():  # fixed the function
-    print settings.welcome_greeting
-    print settings.version
+def print_greetings():
+    print "%s\n%s" % (settings.welcome_greetings, settings.version)
 
 
-def throw_dice():  # added one more dice
-    x = randint(1, 6)
-    y = randint(1, 6)
-    return [x, y] # returning list, because we need to check if player should do second throw.
+def throw_dice():
+    return randint(1, 6)
+
+
+def throw_dices():
+    return [throw_dice() for _ in range(2)]
 
 
 def get_new_player_position(current_cell, thrown_number):
@@ -39,96 +39,83 @@ def get_new_player_position(current_cell, thrown_number):
     return (current_cell + thrown_number) % settings.cells_number
 
 
-# Issue #7
-# fixed the identifier instead of function/ fixed the import
-# deleted the additional constant "constant"
-
-def numb_of_players():
+def get_number_of_players():
     """
-    >>>numb_of_players(float)
+    >>> get_number_of_players(float)
     ValueError: Number must be exact integer
-    >>>numb_of_players(m>4)
+    >>> get_number_of_players(m>4)
     ValueError: Max players - 4
-    >>>numb_of_players(m<2)
+    >>> get_number_of_players(m<2)
     ValueError: Min players - 2
-
-
     """
     while True:
         m = raw_input("Enter the number of players: ")
         try:
             m = int(m)
-        except ValueError:
-            print "Value should be the number!"
-            continue
-        if m <= 1:
-            print "Min number of players is 2"
-        elif m <= settings.max_players_number:
+            if m <= 1:
+                raise ValueError("Min number of players is 2")
+            elif m > settings.max_players_number:
+                raise ValueError('Max number of players - 4, enter the correct number!')
             print('Ok!')
             return m
-        else:
-            print('Max number of players - 4, enter the correct number!')
+        except ValueError as error:
+            print error
 
 
-#Modified issue 9
-def input_player_name():
-    return raw_input('Player_' + str(player) + ' name: ')
-
-
-# builds the profile of a given player
-def player_profile():  # builds the list of players
-    return [input_player_name(), settings.initial_funds, settings.initial_cell]
-
-
-def player_number():
+def input_player_name(player, names):
     while True:
-        try:
-            number_of_players = int(raw_input("Enter the number of players: "))
-            if number_of_players <= 1:
-                print "Min number of players is 2"
-            elif number_of_players <= settings.max_players_number:
-                return number_of_players
-            else:
-                print('Max number of players - 4, enter the correct number!')
-        except ValueError:
-            print "Value should be the number!"
+        name = raw_input('Player_%d name: ' % (player + 1))
+        if name not in names:
+            return name
+        print "Name %s exists" % name
 
 
-def generate_profiles_list():
-    profiles_list = []  # TODO: make it dictionary not list
-    global player
-    for player in range(1, player_number() + 1):
-        while True:
-            current_profile = player_profile()
-            if current_profile not in profiles_list:
-                profiles_list.append(current_profile)
-                break
-            else:
-                print "This name is already held, please try another name"
-    return profiles_list
+def get_player_profile(player, names):
+    return [
+        input_player_name(player, names),
+        settings.initial_funds,
+        settings.initial_cell
+    ]
 
 
-def shuffle_players_profile():
-    shuffled_list = generate_profiles_list()[:]
+def get_all_players_names(profiles):
+    return [profile[0] for profile in profiles]
+
+
+def generate_profiles(number_of_players):
+    profiles = []  # TODO: make it dictionary not list
+    for player_number in range(number_of_players):
+        current_profile = get_player_profile(
+            player_number,
+            get_all_players_names(profiles)
+        )
+        profiles.append(current_profile)
+    return profiles
+
+
+def shuffle_players_profiles(profiles):
+    shuffled_list = profiles[:]
     shuffle(shuffled_list)
     return shuffled_list
 
 
 def main():
-    print_greeting()
-    shuffled_list = shuffle_players_profile()
+    print_greetings()
+    number_of_players = get_number_of_players()
+    shuffled_profiles = shuffle_players_profiles(generate_profiles(number_of_players))
+    print shuffled_profiles
     while True:
-        for player in shuffled_list:
+        for player in shuffled_profiles:
             raw_input(player[0] + '>>>')
-            print(player_name + " thow the dice!") # 13
-    temp_throw = throw_dice()[:]
-         print("dice 1 roll:      ")
-         print("dice 2 roll:      ")
-    if x == y:
-            player_droll = 1
-         else:
-            player_droll = 0
-         gameboard_playermove(player,x + y),0)
+            print(player[0] + " thow the dice!") # 13
+            temp_throw = throw_dice()[:]
+            print("dice 1 roll:      ")
+            print("dice 2 roll:      ")
+    # if x == y:
+    #         player_droll = 1
+    #      else:
+    #         player_droll = 0
+    #      gameboard_playermove(player,x + y),0)
 
 
 main()
