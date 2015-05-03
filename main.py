@@ -43,21 +43,21 @@ def get_number_of_players():
     """
     >>> get_number_of_players(float)
     ValueError: Number must be exact integer
-    >>> get_number_of_players(m>4)
+    >>> get_number_of_players(number_of_players>4)
     ValueError: Max players - 4
-    >>> get_number_of_players(m<2)
+    >>> get_number_of_players(number_of_players<2)
     ValueError: Min players - 2
     """
     while True:
-        m = raw_input("Enter the number of players: ")
+        number_of_players = raw_input("Enter the number of players: ")
         try:
-            m = int(m)
-            if m <= 1:
+            number_of_players = int(number_of_players)
+            if number_of_players <= 1:
                 raise ValueError("Min number of players is 2")
-            elif m > settings.max_players_number:
+            elif number_of_players > settings.max_players_number:
                 raise ValueError('Max number of players - 4, enter the correct number!')
             print('Ok!')
-            return m
+            return number_of_players
         except ValueError as error:
             print error
 
@@ -103,19 +103,10 @@ def main():
     print_greetings()
     number_of_players = get_number_of_players()
     shuffled_profiles = shuffle_players_profiles(generate_profiles(number_of_players))
-    print shuffled_profiles
     while True:
         for player in shuffled_profiles:
-            raw_input(player[0] + '>>>')
-            print(player[0] + " thow the dice!") # 13
-            temp_throw = throw_dice()[:]
-            print("dice 1 roll:      ")
-            print("dice 2 roll:      ")
-    # if x == y:
-    #         player_droll = 1
-    #      else:
-    #         player_droll = 0
-    #      gameboard_playermove(player,x + y),0)
-
+            player_throw = throw_dices()
+            raw_input(' %s %s %s' % (player[0], player_throw, get_new_player_position(player[2], sum(player_throw))))
+            player[2] += sum(player_throw)
 
 main()
