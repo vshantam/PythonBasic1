@@ -70,27 +70,27 @@ def input_player_name(player, names):
         print "Name %s exists" % name
 
 
-def get_player_profile(player, names):
-    return [
-        input_player_name(player, names),
-        settings.initial_funds,
-        settings.initial_cell
-    ]
+# def get_player_profile(player, names):  # we basically don`t need this function if we use #15 solution
+#     return [
+#         input_player_name(player, names),
+#         settings.initial_funds,
+#         settings.initial_cell
+#     ]
 
 
-def get_all_players_names(profiles):
-    return [profile[0] for profile in profiles]
+# def get_all_players_names(profiles):  # we basically don`t need this function if we use #15 solution
+#     return [profile[0] for profile in profiles]
 
 
-def generate_profiles(number_of_players):
-    profiles = []  # TODO: make it dictionary not list
-    for player_number in range(number_of_players):
-        current_profile = get_player_profile(
-            player_number,
-            get_all_players_names(profiles)
-        )
-        profiles.append(current_profile)
-    return profiles
+# def generate_profiles(number_of_players):  # we basically don`t need this function if we use #15 solution
+#     profiles = []  # TODO: make it dictionary not list
+#     for player_number in range(number_of_players):
+#         current_profile = get_player_profile(
+#             player_number,
+#             get_all_players_names(profiles)
+#         )
+#         profiles.append(current_profile)
+#     return profiles
 
 
 def shuffle_players_profiles(profiles):
@@ -99,10 +99,34 @@ def shuffle_players_profiles(profiles):
     return shuffled_list
 
 
+def generate_all_players_names(number_of_players):
+    names_profiles = []
+    for player_number in range(number_of_players):
+        players_name = input_player_name(
+            player_number,
+            names_profiles
+        )
+        names_profiles.append(players_name)
+    return names_profiles
+
+
+def generate_all_players_profiles(number_of_players):
+    names = generate_all_players_names(number_of_players)
+    all_players_profiles = []
+    for name in range(number_of_players):
+        player_profile = [  # still, we don`t use the get_player_profile function
+            names[name],
+            settings.initial_funds,
+            settings.initial_cell
+        ]
+        all_players_profiles.append(player_profile)
+    return all_players_profiles
+
+
 def main():
     print_greetings()
     number_of_players = get_number_of_players()
-    shuffled_profiles = shuffle_players_profiles(generate_profiles(number_of_players))
+    shuffled_profiles = shuffle_players_profiles(generate_all_players_profiles(number_of_players))
     while True:
         for player in shuffled_profiles:
             player_throw = throw_dices()
