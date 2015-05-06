@@ -36,8 +36,6 @@ def get_new_player_position(current_cell, thrown_number, player):
     5
 
     """
-    if current_cell % settings.cells_number + thrown_number > settings.cells_number:
-        player[1] += settings.round_bonus
     return (current_cell + thrown_number) % settings.cells_number
 
 
@@ -72,29 +70,6 @@ def input_player_name(player, names):
         print "Name %s exists" % name
 
 
-# def get_player_profile(player, names):  # we basically don`t need this function if we use #15 solution
-#     return [
-#         input_player_name(player, names),
-#         settings.initial_funds,
-#         settings.initial_cell
-#     ]
-
-
-# def get_all_players_names(profiles):  # we basically don`t need this function if we use #15 solution
-#     return [profile[0] for profile in profiles]
-
-
-# def generate_profiles(number_of_players):  # we basically don`t need this function if we use #15 solution
-#     profiles = []  # TODO: make it dictionary not list
-#     for player_number in range(number_of_players):
-#         current_profile = get_player_profile(
-#             player_number,
-#             get_all_players_names(profiles)
-#         )
-#         profiles.append(current_profile)
-#     return profiles
-
-
 def shuffle_players_profiles(profiles):
     shuffled_list = profiles[:]
     shuffle(shuffled_list)
@@ -112,43 +87,74 @@ def generate_all_players_names(number_of_players):
     return names_profiles
 
 
-def generate_all_players_profiles(number_of_players):
-    names = generate_all_players_names(number_of_players)
-    all_players_profiles = []
-    for name in range(number_of_players):
-        player_profile = [  # still, we don`t use the get_player_profile function
-            names[name],
-            settings.initial_funds,
-            settings.initial_cell
-        ]
-        all_players_profiles.append(player_profile)
-    return all_players_profiles
+def create_profile(name):
+    return [
+        name,
+        settings.initial_funds,
+        settings.initial_cell
+    ]
 
 
-def update_players_list(player_throw, player):
-    raw_input(' %s %s %s %s' % (
+def generate_all_players_profiles(names):
+    return [create_profile(name) for name in names]
+
+
+def get_statistics(player, player_throw):
+    return ' %s %s %s %s' % (
         player[0],
         player_throw,
         get_new_player_position(player[2], sum(player_throw), player),
         player[1]
-    ))
-    player[2] += sum(player_throw)
+    )
+
+
+def print_statistics(player_throw, player):
+    raw_input(get_statistics(player, player_throw))
+
+
+def update_player_position(player, player_throw):
+    player[2] = get_new_player_position(
+        player[2],
+        sum(player_throw),
+        player
+    )
+
+
+def update_funds(player, old_player_position):
+    if player[1] < old_player_position:
+        player[1] += settings.round_bonus
 
 
 def main():
     print_greetings()
+
     number_of_players = get_number_of_players()
-    shuffled_profiles = shuffle_players_profiles(generate_all_players_profiles(number_of_players))
+
+    names = generate_all_players_names(number_of_players)
+
+    players_profiles = generate_all_players_profiles(names)
+
+    shuffled_profiles = shuffle_players_profiles(players_profiles)
+
     while True:
+
         for player in shuffled_profiles:
+
             player_throw = throw_dices()
+
             while player_throw[0] == player_throw[1]:
-                update_players_list(player_throw, player)
+
+                print_statistics(player_throw, player)
+
+                old_player_position = player[2]
+
+                update_player_position(player, player_throw)
+
+                update_funds(player, old_player_position)
+
                 player_throw = throw_dices()
             else:
-                update_players_list(player_throw, player)
-
-
+                print_statistics(player_throw, player)
 
 
 main()
