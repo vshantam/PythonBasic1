@@ -43,9 +43,9 @@ def get_number_of_players():
     """
     >>> get_number_of_players(float)
     ValueError: Number must be exact integer
-    >>> get_number_of_players(number_of_players>4)
+    >>> get_number_of_players(5)
     ValueError: Max players - 4
-    >>> get_number_of_players(number_of_players<2)
+    >>> get_number_of_players(1)
     ValueError: Min players - 2
     """
     while True:
@@ -123,6 +123,11 @@ def generate_all_players_profiles(number_of_players):
     return all_players_profiles
 
 
+def update_players_list(player_throw, player):
+    raw_input(' %s %s %s' % (player[0], player_throw, get_new_player_position(player[2], sum(player_throw))))
+    player[2] += sum(player_throw)
+
+
 def main():
     print_greetings()
     number_of_players = get_number_of_players()
@@ -130,7 +135,13 @@ def main():
     while True:
         for player in shuffled_profiles:
             player_throw = throw_dices()
-            raw_input(' %s %s %s' % (player[0], player_throw, get_new_player_position(player[2], sum(player_throw))))
-            player[2] += sum(player_throw)
+            while player_throw[0] == player_throw[1]:
+                update_players_list(player_throw, player)
+                player_throw = throw_dices()
+            else:
+                update_players_list(player_throw, player)
+
+
+
 
 main()
