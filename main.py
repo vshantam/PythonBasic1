@@ -15,7 +15,7 @@ def throw_dices():
     return [throw_dice() for _ in range(2)]
 
 
-def get_new_player_position(current_cell, thrown_number):
+def get_new_player_position(current_cell, thrown_number, player):
     """
     Initial cell of the first circle is also a final cell of the next circles,
     thus it also should be valued at 44.
@@ -36,6 +36,8 @@ def get_new_player_position(current_cell, thrown_number):
     5
 
     """
+    if current_cell % settings.cells_number + thrown_number > settings.cells_number:
+        player[1] += settings.round_bonus
     return (current_cell + thrown_number) % settings.cells_number
 
 
@@ -124,7 +126,12 @@ def generate_all_players_profiles(number_of_players):
 
 
 def update_players_list(player_throw, player):
-    raw_input(' %s %s %s' % (player[0], player_throw, get_new_player_position(player[2], sum(player_throw))))
+    raw_input(' %s %s %s %s' % (
+        player[0],
+        player_throw,
+        get_new_player_position(player[2], sum(player_throw), player),
+        player[1]
+    ))
     player[2] += sum(player_throw)
 
 

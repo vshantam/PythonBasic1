@@ -25,5 +25,7 @@ initial_cell = 0
 
 # initial amount of money
 initial_funds = 200000
+# bonus for completing one circle
+round_bonus = 50000
 
 max_players_number = 4
