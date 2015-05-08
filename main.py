@@ -125,6 +125,9 @@ def update_funds(player, old_player_position):
         player[1] += settings.round_bonus
 
 
+playing_field = [[] for i in range(settings.cells_number)]
+
+
 def main():
     print_greetings()
 
