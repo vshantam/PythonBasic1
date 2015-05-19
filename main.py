@@ -36,7 +36,9 @@ def get_new_player_position(current_cell, thrown_number, player):
     5
 
     """
-    return (current_cell + thrown_number) % settings.cells_number
+    player[2] = (current_cell + thrown_number) % settings.cells_number
+
+    return player[2]
 
 
 def get_number_of_players():
@@ -99,30 +101,23 @@ def generate_all_players_profiles(names):
     return [create_profile(name) for name in names]
 
 
-def get_statistics(player, player_throw):
+def get_statistics(player, player_throw, old_player_position):
     return ' %s %s %s %s' % (
         player[0],
         player_throw,
         get_new_player_position(player[2], sum(player_throw), player),
-        player[1]
+        update_funds(player, old_player_position)
     )
 
 
-def print_statistics(player_throw, player):
-    raw_input(get_statistics(player, player_throw))
-
-
-def update_player_position(player, player_throw):
-    player[2] = get_new_player_position(
-        player[2],
-        sum(player_throw),
-        player
-    )
+def print_statistics(player_throw, player, old_player_position):
+    raw_input(get_statistics(player, player_throw, old_player_position))
 
 
 def update_funds(player, old_player_position):
-    if player[1] < old_player_position:
+    if player[2] < old_player_position:
         player[1] += settings.round_bonus
+    return player[1]
 
 
 playing_field = [[] for i in range(settings.cells_number)]
@@ -145,19 +140,15 @@ def main():
 
             player_throw = throw_dices()
 
+            old_player_position = player[2]
+
             while player_throw[0] == player_throw[1]:
 
-                print_statistics(player_throw, player)
-
-                old_player_position = player[2]
-
-                update_player_position(player, player_throw)
-
-                update_funds(player, old_player_position)
+                print_statistics(player_throw, player, old_player_position)
 
                 player_throw = throw_dices()
             else:
-                print_statistics(player_throw, player)
+                print_statistics(player_throw, player, old_player_position)
 
 
 main()
