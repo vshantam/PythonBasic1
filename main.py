@@ -131,7 +131,7 @@ def bonuses_and_taxes(playing_field, bonus_taxes_cell_data):
 
 playing_field=generating_empty_field()
 bonuses_and_taxes(playing_field, {'a': [500, 5], 'b': [500, 15], 'c': [500, 25], 'd': [500, 35]})
-print playing_field
+
 
 
 
@@ -160,6 +160,8 @@ def main():
                 print_statistics(player_throw, player, old_player_position)
 
                 player_throw = throw_dices()
+
+                old_player_position = player[2]
             else:
                 print_statistics(player_throw, player, old_player_position)
 
