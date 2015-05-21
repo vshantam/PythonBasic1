@@ -120,11 +120,20 @@ def update_funds(player, old_player_position):
     return player[1]
 
 
-playing_field = [[] for cell in range(settings.cells_number)]
+def generating_empty_field():
+    playing_field = [[] for cell in range(settings.cells_number)]
+    return playing_field
 
-def bonuses_and_taxes(playing_field, cell_name, money, bonuses_and_taxes_positions):
-    for number in range(len(bonuses_and_taxes_positions)):
-        playing_field[bonuses_and_taxes_positions[number]] = [cell_name[number], money[number]]
+def bonuses_and_taxes(playing_field, bonus_taxes_cell_data):
+    for name, value in bonus_taxes_cell_data.iteritems():
+        playing_field[bonus_taxes_cell_data[name][1]] = [name, bonus_taxes_cell_data[name][0]]
+
+
+playing_field=generating_empty_field()
+bonuses_and_taxes(playing_field, {'a': [500, 5], 'b': [500, 15], 'c': [500, 25], 'd': [500, 35]})
+print playing_field
+
+
 
 
 def main():
