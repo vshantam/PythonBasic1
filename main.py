@@ -150,7 +150,6 @@ def generating_property_fields(playing_field, property_cell_data):
         ]
     return playing_field
 
-
 property_fields = {
     'Cafe': [1, 100, None],
     'Warehouse': [9, 200, None],
