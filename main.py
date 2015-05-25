@@ -41,27 +41,25 @@ def get_new_player_position(current_cell, thrown_number, player):
     return player[2]
 
 
+def check_number_of_players(number_of_players):
+
+    try:
+        number_of_players = int(number_of_players)
+        if number_of_players <= 1:
+            raise ValueError("Min number of players is 2")
+        elif number_of_players > 4:
+            raise ValueError('Max number of players - 4, enter the correct number!')
+        print('Ok!')
+        return 1
+    except ValueError as error:
+        print error
+
 def get_number_of_players():
-    """
-    >>> get_number_of_players(float)
-    ValueError: Number must be exact integer
-    >>> get_number_of_players(5)
-    ValueError: Max players - 4
-    >>> get_number_of_players(1)
-    ValueError: Min players - 2
-    """
+
     while True:
         number_of_players = raw_input("Enter the number of players: ")
-        try:
-            number_of_players = int(number_of_players)
-            if number_of_players <= 1:
-                raise ValueError("Min number of players is 2")
-            elif number_of_players > settings.max_players_number:
-                raise ValueError('Max number of players - 4, enter the correct number!')
-            print('Ok!')
+        if check_number_of_players(number_of_players) == 1:
             return number_of_players
-        except ValueError as error:
-            print error
 
 
 def input_player_name(player, names):
@@ -149,7 +147,6 @@ def generating_property_fields(playing_field, property_cell_data):
             property_cell_data[name][2]
         ]
     return playing_field
-
 
 property_fields = {
     'Cafe': [1, 100, None],
