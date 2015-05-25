@@ -124,16 +124,42 @@ def generating_empty_field():
     playing_field = [[] for cell in range(settings.cells_number)]
     return playing_field
 
-def bonuses_and_taxes(playing_field, bonus_taxes_cell_data):
+
+def generating_bonuses_and_taxes_fields(playing_field, bonus_taxes_cell_data):
     for name, value in bonus_taxes_cell_data.iteritems():
-        playing_field[bonus_taxes_cell_data[name][1]] = [name, bonus_taxes_cell_data[name][0]]
+        playing_field[bonus_taxes_cell_data[name][1] - 1] = [  # fixed so that we have no 0 field
+                                                               name,
+                                                               bonus_taxes_cell_data[name][0]
+                                                               ]
+    return playing_field
 
 
-playing_field=generating_empty_field()
-bonuses_and_taxes(playing_field, {'a': [500, 5], 'b': [500, 15], 'c': [500, 25], 'd': [500, 35]})
+playing_field = generating_empty_field()
+bonuses_and_taxes = {'a': [500, 5], 'b': [500, 15], 'c': [500, 25], 'd': [500, 35]}
+
+print generating_bonuses_and_taxes_fields(playing_field, bonuses_and_taxes)
+# example of how field generation is proceeded
 
 
+def generating_property_fields(playing_field, property_cell_data):
+    for name, value in property_cell_data.iteritems():
+        playing_field[property_cell_data[name][0] - 1] = [
+            name,
+            property_cell_data[name][1],
+            property_cell_data[name][2]
+        ]
+    return playing_field
 
+
+property_fields = {
+    'Cafe': [1, 100, None],
+    'Warehouse': [9, 200, None],
+    'Marine': [17, 300, None],
+    'Factory': [25, 400, None]
+}
+
+print generating_property_fields(playing_field, property_fields)
+# example of how field generation is proceeded
 
 
 def main():
@@ -166,4 +192,3 @@ def main():
                 print_statistics(player_throw, player, old_player_position)
 
 
-main()
