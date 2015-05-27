@@ -29,3 +29,12 @@ initial_funds = 200000
 round_bonus = 50000
 
 max_players_number = 4
+
+property_fields = {
+    'Cafe': [1, 100, None],
+    'Warehouse': [9, 200, None],
+    'Marine': [17, 300, None],
+    'Factory': [25, 400, None]
+}
+
+bonuses_and_taxes = {'a': [5, 500], 'b': [15, 500], 'c': [25, 500], 'd': [35, 500]}

@@ -1,5 +1,6 @@
 # coding: utf8
 import settings
+import field
 from random import randint, shuffle
 
 
@@ -41,25 +42,27 @@ def get_new_player_position(current_cell, thrown_number, player):
     return player[2]
 
 
-def check_number_of_players(number_of_players):
-
-    try:
-        number_of_players = int(number_of_players)
-        if number_of_players <= 1:
-            raise ValueError("Min number of players is 2")
-        elif number_of_players > 4:
-            raise ValueError('Max number of players - 4, enter the correct number!')
-        print('Ok!')
-        return 1
-    except ValueError as error:
-        print error
-
 def get_number_of_players():
-
+    """
+    >>> get_number_of_players(float)
+    ValueError: Number must be exact integer
+    >>> get_number_of_players(5)
+    ValueError: Max players - 4
+    >>> get_number_of_players(1)
+    ValueError: Min players - 2
+    """
     while True:
         number_of_players = raw_input("Enter the number of players: ")
-        if check_number_of_players(number_of_players) == 1:
+        try:
+            number_of_players = int(number_of_players)
+            if number_of_players <= 1:
+                raise ValueError("Min number of players is 2")
+            elif number_of_players > settings.max_players_number:
+                raise ValueError('Max number of players - 4, enter the correct number!')
+            print('Ok!')
             return number_of_players
+        except ValueError as error:
+            print error
 
 
 def input_player_name(player, names):
@@ -99,64 +102,37 @@ def generate_all_players_profiles(names):
     return [create_profile(name) for name in names]
 
 
-def get_statistics(player, player_throw, old_player_position):
+def get_statistics(player, player_throw):
     return ' %s %s %s %s' % (
         player[0],
         player_throw,
-        get_new_player_position(player[2], sum(player_throw), player),
-        update_funds(player, old_player_position)
+        player[2],
+        player[1]
     )
 
 
-def print_statistics(player_throw, player, old_player_position):
-    raw_input(get_statistics(player, player_throw, old_player_position))
+def print_statistics(player_throw, player):
+    raw_input(get_statistics(player, player_throw))
 
 
 def update_funds(player, old_player_position):
+
     if player[2] < old_player_position:
         player[1] += settings.round_bonus
+
     return player[1]
 
 
-def generating_empty_field():
-    playing_field = [[] for cell in range(settings.cells_number)]
-    return playing_field
-
-
-def generating_bonuses_and_taxes_fields(playing_field, bonus_taxes_cell_data):
-    for name, value in bonus_taxes_cell_data.iteritems():
-        playing_field[bonus_taxes_cell_data[name][1] - 1] = [  # fixed so that we have no 0 field
-                                                               name,
-                                                               bonus_taxes_cell_data[name][0]
-                                                               ]
-    return playing_field
-
-
-playing_field = generating_empty_field()
-bonuses_and_taxes = {'a': [500, 5], 'b': [500, 15], 'c': [500, 25], 'd': [500, 35]}
-
-print generating_bonuses_and_taxes_fields(playing_field, bonuses_and_taxes)
-# example of how field generation is proceeded
-
-
-def generating_property_fields(playing_field, property_cell_data):
-    for name, value in property_cell_data.iteritems():
-        playing_field[property_cell_data[name][0] - 1] = [
-            name,
-            property_cell_data[name][1],
-            property_cell_data[name][2]
-        ]
-    return playing_field
-
-property_fields = {
-    'Cafe': [1, 100, None],
-    'Warehouse': [9, 200, None],
-    'Marine': [17, 300, None],
-    'Factory': [25, 400, None]
-}
-
-print generating_property_fields(playing_field, property_fields)
-# example of how field generation is proceeded
+def hitting_bonuses_and_taxes_fields(player):
+    cell_data = field.generating_ultimate_field()[player[2] - 1]
+    try:
+        if cell_data[1] > 0:
+            print ' You are at %s cell. Your balance is changed by %s coins' \
+                  % (cell_data[0], cell_data[1])
+            player[1] += cell_data[1]
+            return player[1]
+    except IndexError:
+        pass
 
 
 def main():
@@ -180,12 +156,27 @@ def main():
 
             while player_throw[0] == player_throw[1]:
 
-                print_statistics(player_throw, player, old_player_position)
+                get_new_player_position(player[2], sum(player_throw), player)
+
+                update_funds(player, old_player_position)
+
+                hitting_bonuses_and_taxes_fields(player)
+
+                print_statistics(player_throw, player)
 
                 player_throw = throw_dices()
 
                 old_player_position = player[2]
             else:
-                print_statistics(player_throw, player, old_player_position)
 
+                get_new_player_position(player[2], sum(player_throw), player)
+
+                update_funds(player, old_player_position)
+
+                hitting_bonuses_and_taxes_fields(player)
+
+                print_statistics(player_throw, player)
+
+
+main()
 
