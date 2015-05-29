@@ -41,30 +41,18 @@ def get_new_player_position(current_cell, thrown_number, player):
 
     return player[2]
 
-
-# def get_number_of_players():
-#     """
-#     >>> get_number_of_players(float)
-#     ValueError: Number must be exact integer
-#     >>> get_number_of_players(5)
-#     ValueError: Max players - 4
-#     >>> get_number_of_players(1)
-#     ValueError: Min players - 2
-#     """
-#     while True:
-#         number_of_players = raw_input("Enter the number of players: ")
-#         try:
-#             number_of_players = int(number_of_players)
-#             if number_of_players <= 1:
-#                 raise ValueError("Min number of players is 2")
-#             elif number_of_players > settings.max_players_number:
-#                 raise ValueError('Max number of players - 4, enter the correct number!')
-#             print('Ok!')
-#             return number_of_players
-#         except ValueError as error:
-#             print error
-
 def check_number_of_players(number_of_players):
+    """
+    >>> check_number_of_players(float)
+    Max number of players - 4, enter the correct number!
+    >>> check_number_of_players(5)
+    Max number of players - 4, enter the correct number!
+    >>> check_number_of_players(1)
+    Min number of players is 2
+    >>> check_number_of_players(4)
+    Ok!
+    1
+    """
 
     try:
         number_of_players = int(number_of_players)
