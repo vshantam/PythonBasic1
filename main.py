@@ -123,20 +123,16 @@ def update_funds(player, old_player_position):
     return player[1]
 
 
-def hitting_bonuses_and_taxes_fields(player):
-    cell_data = field.generating_ultimate_field()[player[2] - 1]
-    try:
-        if cell_data[1] > 0:
-            print ' You are at %s cell. Your balance is changed by %s coins' \
-                  % (cell_data[0], cell_data[1])
-            player[1] += cell_data[1]
-            return player[1]
-    except IndexError:
-        pass
+def hitting_bonuses_and_taxes_fields(player, generated_field):
+    if type(generated_field[player[2]]) == int:
+        print "Your budget changed by ", generated_field[player[2]]
+        player[1] += generated_field[player[2]]
+    return player
 
 
 def main():
     print_greetings()
+    generated_field = field.generating_ultimate_field()
 
     number_of_players = get_number_of_players()
 
@@ -160,7 +156,7 @@ def main():
 
                 update_funds(player, old_player_position)
 
-                hitting_bonuses_and_taxes_fields(player)
+                hitting_bonuses_and_taxes_fields(player, generated_field)
 
                 print_statistics(player_throw, player)
 
@@ -173,7 +169,7 @@ def main():
 
                 update_funds(player, old_player_position)
 
-                hitting_bonuses_and_taxes_fields(player)
+                hitting_bonuses_and_taxes_fields(player, generated_field)
 
                 print_statistics(player_throw, player)
 

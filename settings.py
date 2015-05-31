@@ -30,11 +30,19 @@ round_bonus = 50000
 
 max_players_number = 4
 
-property_fields = {
-    'Cafe': [1, 100, None],
-    'Warehouse': [9, 200, None],
-    'Marine': [17, 300, None],
-    'Factory': [25, 400, None]
-}
+field_data = {
+    'property': [{'Cafe': [1, 10000, None]},
+                 {'Warehouse': [9, 20000, None]},
+                 {'Marine': [17, 30000, None]},
+                 {'Factory': [25, 40000, None]},
+                 {'Cafe2': [11, 10000, None]},
+                 {'Warehouse2': [19, 20000, None]},
+                 {'Marine2': [27, 30000, None]},
+                 {'Factory2': [35, 40000, None]}],
+    'bonuses_and_taxes': [(3, 15000),
+                          (12, 15000),
+                          (24, -15000),
+                          (42, -15000)
+                          ],
+    'pass_throw': (5, 16, 23, 34, 41)}
 
-bonuses_and_taxes = {'a': [5, 500], 'b': [15, 500], 'c': [25, 500], 'd': [35, 500]}

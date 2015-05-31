@@ -1,6 +1,5 @@
 # coding: utf8
 import settings
-# import test
 
 
 def generating_empty_field():
@@ -8,31 +7,28 @@ def generating_empty_field():
     return empty_field
 
 
-def generating_bonuses_and_taxes_fields(playing_field, bonus_taxes_cell_data):
-    for name, value in bonus_taxes_cell_data.iteritems():
-        playing_field[bonus_taxes_cell_data[name][0] - 1] = [  # fixed so that we have no 0 field
-                                                               name,
-                                                               bonus_taxes_cell_data[name][1]
-                                                               ]
+def generating_bonuses_and_taxes_fields(playing_field, field_data):
+    for _ in field_data['bonuses_and_taxes']:
+        playing_field[_[0]] = _[1]
     return playing_field
 
 
-def generating_property_fields(playing_field, property_cell_data):
-    for name, value in property_cell_data.iteritems():
-        playing_field[property_cell_data[name][0] - 1] = [
-            name,
-            0,
-            property_cell_data[name][1],
-            property_cell_data[name][2]
-        ]
+def generating_property_fields(playing_field, field_data):
+    for _ in field_data['property']:
+        for key, value in _.iteritems():
+            playing_field[_[key][0]] = _
+    return playing_field
+
+
+def generating_passing_fields(playing_field, field_data):
+    for _ in field_data['pass_throw']:
+        playing_field[_] = 'pass_throw'
     return playing_field
 
 
 def generating_ultimate_field():
-    empty_field = generating_empty_field()
-    generating_property_fields(empty_field, settings.property_fields)
-    generating_bonuses_and_taxes_fields(empty_field, settings.bonuses_and_taxes)
-    return empty_field
-
-
-    # example of how field generation is proceeded
+    field = generating_empty_field()
+    generating_property_fields(field, settings.field_data)
+    generating_bonuses_and_taxes_fields(field, settings.field_data)
+    generating_passing_fields(field, settings.field_data)
+    return field
