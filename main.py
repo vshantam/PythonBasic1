@@ -137,6 +137,35 @@ def passing_fields(player, generated_field):
         player[3] = True
     else:
         hitting_bonuses_and_taxes_fields(player, generated_field)
+        buying_property(player, generated_field)
+    return player
+
+
+def buying_choice(key, value, player):
+    print key, value[1]
+    choice = raw_input("Would you like to buy? Y/N")
+    while True:
+        if choice in ['Y', 'y']:
+            if player[1] >= value[1]:
+                value[2] = player[0]
+                player[1] -= value[1]
+                break
+            else:
+                print "You don't have enough money"
+                break
+        elif choice not in ['Y', 'y', 'N', 'n']:
+            choice = raw_input("Wrong input, please type 'Y' or 'N'")
+        else:
+            print "Property skipped"
+            break
+    return player
+
+
+def buying_property(player, generated_field):
+    if type(generated_field[player[2]]) == dict:
+        for key, value in generated_field[player[2]].iteritems():
+            if value[2] is None:
+                buying_choice(key, value, player)
     return player
 
 
@@ -156,7 +185,7 @@ def main():
 
         for player in shuffled_profiles:
 
-            if player[3] == False:
+            if player[3] is False:
 
                 player_throw = throw_dices()
 
@@ -176,7 +205,7 @@ def main():
                     passing_fields(player, generated_field)
 
                 else:
-                    if player[3] == False:
+                    if player[3] is False:
                         get_new_player_position(player[2], sum(player_throw), player)
 
                         update_funds(player, old_player_position)
