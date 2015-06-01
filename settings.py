@@ -30,6 +30,8 @@ round_bonus = 50000
 
 max_players_number = 4
 
+skip_turn = False
+
 field_data = {
     'property': [{'Cafe': [1, 10000, None]},
                  {'Warehouse': [9, 20000, None]},
@@ -44,5 +46,5 @@ field_data = {
                           (24, -15000),
                           (42, -15000)
                           ],
-    'pass_throw': (5, 16, 23, 34, 41)}
+    'pass_throw': (2, 4, 5, 6, 7, 8, 10, 16, 23, 34, 41)}
 

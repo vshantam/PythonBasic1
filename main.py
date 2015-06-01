@@ -94,7 +94,8 @@ def create_profile(name):
     return [
         name,
         settings.initial_funds,
-        settings.initial_cell
+        settings.initial_cell,
+        settings.skip_turn
     ]
 
 
@@ -130,6 +131,15 @@ def hitting_bonuses_and_taxes_fields(player, generated_field):
     return player
 
 
+def passing_fields(player, generated_field):
+    if type(generated_field[player[2]]) == str:
+        print player[0], " skip next turn"
+        player[3] = True
+    else:
+        hitting_bonuses_and_taxes_fields(player, generated_field)
+    return player
+
+
 def main():
     print_greetings()
     generated_field = field.generating_ultimate_field()
@@ -146,33 +156,38 @@ def main():
 
         for player in shuffled_profiles:
 
-            player_throw = throw_dices()
-
-            old_player_position = player[2]
-
-            while player_throw[0] == player_throw[1]:
-
-                get_new_player_position(player[2], sum(player_throw), player)
-
-                update_funds(player, old_player_position)
-
-                hitting_bonuses_and_taxes_fields(player, generated_field)
-
-                print_statistics(player_throw, player)
+            if player[3] == False:
 
                 player_throw = throw_dices()
 
                 old_player_position = player[2]
+
+                while player_throw[0] == player_throw[1] and player[3] == False:
+
+                    get_new_player_position(player[2], sum(player_throw), player)
+
+                    update_funds(player, old_player_position)
+
+                    print_statistics(player_throw, player)
+
+                    player_throw = throw_dices()
+
+                    old_player_position = player[2]
+                    passing_fields(player, generated_field)
+
+                else:
+                    if player[3] == False:
+                        get_new_player_position(player[2], sum(player_throw), player)
+
+                        update_funds(player, old_player_position)
+
+                        passing_fields(player, generated_field)
+
+                        print_statistics(player_throw, player)
+                    else:
+                        player[3] = False
             else:
-
-                get_new_player_position(player[2], sum(player_throw), player)
-
-                update_funds(player, old_player_position)
-
-                hitting_bonuses_and_taxes_fields(player, generated_field)
-
-                print_statistics(player_throw, player)
-
+                player[3] = False
 
 main()
 
