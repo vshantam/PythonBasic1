@@ -101,7 +101,8 @@ def create_profile(name):
     return [
         name,
         settings.initial_funds,
-        settings.initial_cell
+        settings.initial_cell,
+        settings.skip_turn
     ]
 
 
@@ -130,20 +131,54 @@ def update_funds(player, old_player_position):
     return player[1]
 
 
-def hitting_bonuses_and_taxes_fields(player):
-    cell_data = field.generating_ultimate_field()[player[2] - 1]
-    try:
-        if cell_data[1] > 0:
-            print ' You are at %s cell. Your balance is changed by %s coins' \
-                  % (cell_data[0], cell_data[1])
-            player[1] += cell_data[1]
-            return player[1]
-    except IndexError:
-        pass
+def hitting_bonuses_and_taxes_fields(player, generated_field):
+    if type(generated_field[player[2]]) == int:
+        print "Your budget changed by ", generated_field[player[2]]
+        player[1] += generated_field[player[2]]
+    return player
+
+
+def passing_fields(player, generated_field):
+    if type(generated_field[player[2]]) == str:
+        print player[0], " skip next turn"
+        player[3] = True
+    else:
+        hitting_bonuses_and_taxes_fields(player, generated_field)
+        buying_property(player, generated_field)
+    return player
+
+
+def buying_choice(key, value, player):
+    print key, value[1]
+    choice = raw_input("Would you like to buy? Y/N")
+    while True:
+        if choice in ['Y', 'y']:
+            if player[1] >= value[1]:
+                value[2] = player[0]
+                player[1] -= value[1]
+                break
+            else:
+                print "You don't have enough money"
+                break
+        elif choice not in ['Y', 'y', 'N', 'n']:
+            choice = raw_input("Wrong input, please type 'Y' or 'N'")
+        else:
+            print "Property skipped"
+            break
+    return player
+
+
+def buying_property(player, generated_field):
+    if type(generated_field[player[2]]) == dict:
+        for key, value in generated_field[player[2]].iteritems():
+            if value[2] is None:
+                buying_choice(key, value, player)
+    return player
 
 
 def main():
     print_greetings()
+    generated_field = field.generating_ultimate_field()
 
     number_of_players = get_number_of_players()
 
@@ -157,33 +192,38 @@ def main():
 
         for player in shuffled_profiles:
 
-            player_throw = throw_dices()
-
-            old_player_position = player[2]
-
-            while player_throw[0] == player_throw[1]:
-
-                get_new_player_position(player[2], sum(player_throw), player)
-
-                update_funds(player, old_player_position)
-
-                hitting_bonuses_and_taxes_fields(player)
-
-                print_statistics(player_throw, player)
+            if player[3] is False:
 
                 player_throw = throw_dices()
 
                 old_player_position = player[2]
+
+                while player_throw[0] == player_throw[1] and player[3] == False:
+
+                    get_new_player_position(player[2], sum(player_throw), player)
+
+                    update_funds(player, old_player_position)
+
+                    print_statistics(player_throw, player)
+
+                    player_throw = throw_dices()
+
+                    old_player_position = player[2]
+                    passing_fields(player, generated_field)
+
+                else:
+                    if player[3] is False:
+                        get_new_player_position(player[2], sum(player_throw), player)
+
+                        update_funds(player, old_player_position)
+
+                        passing_fields(player, generated_field)
+
+                        print_statistics(player_throw, player)
+                    else:
+                        player[3] = False
             else:
-
-                get_new_player_position(player[2], sum(player_throw), player)
-
-                update_funds(player, old_player_position)
-
-                hitting_bonuses_and_taxes_fields(player)
-
-                print_statistics(player_throw, player)
-
+                player[3] = False
 
 main()
 
