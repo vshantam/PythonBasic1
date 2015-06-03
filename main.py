@@ -131,13 +131,13 @@ def hitting_bonuses_and_taxes_fields(player, generated_field):
     return player
 
 
-def passing_fields(player, generated_field):
+def passing_fields(player, generated_field, shuffled_profiles):
     if type(generated_field[player[2]]) == str:
         print player[0], " skip next turn"
         player[3] = True
     else:
         hitting_bonuses_and_taxes_fields(player, generated_field)
-        buying_property(player, generated_field)
+        buying_property(player, generated_field, shuffled_profiles)
     return player
 
 
@@ -161,11 +161,18 @@ def buying_choice(key, value, player):
     return player
 
 
-def buying_property(player, generated_field):
+def buying_property(player, generated_field, shuffled_profiles):
     if type(generated_field[player[2]]) == dict:
         for key, value in generated_field[player[2]].iteritems():
             if value[2] is None:
                 buying_choice(key, value, player)
+            elif value[2] not in [player[0], None]:
+                player[1] -= value[1] / 10
+                print "Player", player[0], " balance decreased by ", value[1] / 10
+                for profile in shuffled_profiles:
+                    if profile[0] == value[2]:
+                        profile[1] += value[1] / 10
+                        print "Player", profile[0], " balance increased by ", value[1] / 10
     return player
 
 
@@ -202,7 +209,7 @@ def main():
                     player_throw = throw_dices()
 
                     old_player_position = player[2]
-                    passing_fields(player, generated_field)
+                    passing_fields(player, generated_field, shuffled_profiles)
 
                 else:
                     if player[3] is False:
@@ -210,7 +217,7 @@ def main():
 
                         update_funds(player, old_player_position)
 
-                        passing_fields(player, generated_field)
+                        passing_fields(player, generated_field, shuffled_profiles)
 
                         print_statistics(player_throw, player)
                     else:
