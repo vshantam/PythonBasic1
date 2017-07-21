@@ -62,7 +62,7 @@ def check_number_of_players(number_of_players):
             raise ValueError('Max number of players - 4, enter the correct number!')
         print('Ok!')
         return 1
-    except ValueError as error:
+    except Exception as error:
         print error
 
 def get_number_of_players():
@@ -232,5 +232,6 @@ def main():
             else:
                 player[3] = False
 
-main()
+if __name__=='__main__':
+    main()
 
