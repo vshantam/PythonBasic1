@@ -5,11 +5,12 @@ from random import randint, shuffle
 
 
 def print_greetings():
-    print "%s\n%s" % (settings.welcome_greetings, settings.version)
+    print("{0}\n{1}\n".format(settings.welcome_greetings, settings.version))
 
 
 def throw_dice():
-    return randint(1, 6)
+    return 1+int(random.random()*10)%6  #creates Much less repetation of digits than randint function in range(1,6)
+
 
 
 def throw_dices():
