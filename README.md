@@ -1,2 +1,2 @@
 # PythonBasic1
-Python Basic Project
+In this project basics python concepts are used for the Implementation.
